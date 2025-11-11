@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from "react";
+import ReactFlow, { ReactFlowProvider } from "reactflow";
+import "reactflow/dist/style.css";
+import { FlowProvider, useFlow } from "./flow/FlowContext";
+import { nodeTypes } from "./nodes";
+import FlowToolbar from "./flow/FlowToolbar";
+import NodePropertiesPopover from "./components/NodePropertiesPanel"; // ✅ isimle eşleştirdik
 
-function App() {
+function FlowCanvas() {
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    setSelectedNode,
+  } = useFlow();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ height: "100vh", width: "100%", position: "relative" }}>
+      <FlowToolbar />
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onNodeClick={(e, node) => setSelectedNode(node)}
+        nodeTypes={nodeTypes}
+        fitView
+      />
+      <NodePropertiesPopover /> {/* ✅ güncel isim */}
     </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <ReactFlowProvider>
+      <FlowProvider>
+        <FlowCanvas />
+      </FlowProvider>
+    </ReactFlowProvider>
+  );
+}
