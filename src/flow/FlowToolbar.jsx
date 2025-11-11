@@ -25,6 +25,15 @@ import FunctionsIcon from "@mui/icons-material/Functions";
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import MergeTypeIcon from "@mui/icons-material/MergeType";
 
+// math operation icons (unique)
+import RemoveIcon from "@mui/icons-material/Remove";
+import CloseIcon from "@mui/icons-material/Close";
+import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
+import CalculateIcon from "@mui/icons-material/Calculate";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import PercentIcon from "@mui/icons-material/Percent";
+
 export default function FlowToolbar() {
   const { addNode, removeLastNode, exportFlow } = useFlow();
   const [expanded, setExpanded] = useState(false);
@@ -47,10 +56,10 @@ export default function FlowToolbar() {
     closeMenu();
   };
 
-  const iconButtonStyle = {
+  const iconButtonBase = {
     borderRadius: 8,
     padding: 8,
-    transition: "all 0.2s ease",
+    transition: "all 0.18s ease",
   };
 
   // menu definitions
@@ -58,44 +67,59 @@ export default function FlowToolbar() {
     {
       key: "source",
       icon: <PlayArrowIcon />,
-      tooltip: "Source Nodes",
+      tooltip: "Source",
       items: [
-        { key: "live_signal_source", label: "LiveSignalSource", icon: <FiberManualRecordIcon /> },
-        { key: "historical_signal_source", label: "HistoricalSignalSource", icon: <HistoryIcon /> },
-        { key: "synthetic_generator", label: "SyntheticGenerator", icon: <AutoFixHighIcon /> },
+        { key: "live_signal_source", label: "Live Signal", icon: <FiberManualRecordIcon /> },
+        // { key: "historical_signal_source", label: "Historical", icon: <HistoryIcon /> },
+        { key: "synthetic_generator", label: "Synthetic", icon: <AutoFixHighIcon /> },
         { key: "constants", label: "Constants", icon: <DonutSmallIcon /> },
       ],
     },
     {
       key: "filter",
       icon: <FilterListIcon />,
-      tooltip: "Filter / Condition",
+      tooltip: "Filter",
       items: [
-        { key: "threshold_filter", label: "Threshold Filter", icon: <TuneIcon /> },
-        { key: "value_range_filter", label: "Value Range Filter", icon: <FunctionsIcon /> },
-        { key: "expression_filter", label: "Expression Filter", icon: <DeviceHubIcon /> },
-        { key: "deduplication_filter", label: "Deduplication Filter", icon: <MergeTypeIcon /> },
+        { key: "threshold_filter", label: "Threshold", icon: <TuneIcon /> },
+        { key: "value_range_filter", label: "Value Range", icon: <FunctionsIcon /> },
+        { key: "expression_filter", label: "Expression", icon: <DeviceHubIcon /> },
+        { key: "deduplication_filter", label: "Deduplication", icon: <MergeTypeIcon /> },
       ],
     },
     {
       key: "transform",
       icon: <TuneIcon />,
-      tooltip: "Transformation",
+      tooltip: "Transform",
       items: [
-        { key: "map_transform", label: "MapTransform", icon: <AutoFixHighIcon /> },
-        { key: "scale_transform", label: "ScaleTransform", icon: <FunctionsIcon /> },
-        { key: "aggregate_window", label: "AggregateWindow", icon: <DonutSmallIcon /> },
-        { key: "derivative_delta", label: "Derivative/Delta", icon: <FunctionsIcon /> },
-        { key: "fft_transform", label: "FFTTransform", icon: <DeviceHubIcon /> },
+        { key: "map_transform", label: "Map", icon: <AutoFixHighIcon /> },
+        { key: "scale_transform", label: "Scale", icon: <FunctionsIcon /> },
+        { key: "aggregate_window", label: "Aggregate", icon: <DonutSmallIcon /> },
+        { key: "derivative_delta", label: "Derivative", icon: <FunctionsIcon /> },
+        { key: "fft_transform", label: "FFT", icon: <DeviceHubIcon /> },
         { key: "smoothing", label: "Smoothing", icon: <HistoryIcon /> },
+      ],
+    },
+    // Math / Operations (7 unique icons)
+    {
+      key: "math",
+      icon: <FunctionsIcon />,
+      tooltip: "Math",
+      items: [
+        { key: "sum", label: "Sum", icon: <AddCircleOutlineIcon /> },
+        { key: "subtract", label: "Subtract", icon: <RemoveIcon /> },
+        { key: "multiply", label: "Multiply", icon: <CloseIcon /> },
+        { key: "divide", label: "Divide", icon: <HorizontalRuleIcon /> },
+        // { key: "average", label: "Average", icon: <CalculateIcon /> },
+        // { key: "max", label: "Max", icon: <ArrowUpwardIcon /> },
+        // { key: "min", label: "Min", icon: <ArrowDownwardIcon /> },
       ],
     },
     {
       key: "logic",
       icon: <CallSplitIcon />,
-      tooltip: "Logic / Branch",
+      tooltip: "Logic",
       items: [
-        { key: "if_else", label: "IfElse", icon: <CallSplitIcon /> },
+        { key: "if_else", label: "If / Else", icon: <CallSplitIcon /> },
         { key: "switch", label: "Switch", icon: <MergeTypeIcon /> },
         { key: "merge", label: "Merge", icon: <MergeTypeIcon /> },
         { key: "join", label: "Join", icon: <DeviceHubIcon /> },
@@ -104,17 +128,17 @@ export default function FlowToolbar() {
     {
       key: "feature",
       icon: <TrendingUpIcon />,
-      tooltip: "Feature / Analytics",
+      tooltip: "Feature",
       items: [
-        { key: "trend_detector", label: "TrendDetector", icon: <TrendingUpIcon /> },
-        { key: "event_correlation", label: "Event Correlation", icon: <DeviceHubIcon /> },
-        { key: "pattern_matcher", label: "Pattern Matcher", icon: <FunctionsIcon /> },
+        { key: "trend_detector", label: "Trend", icon: <TrendingUpIcon /> },
+        { key: "event_correlation", label: "Correlation", icon: <DeviceHubIcon /> },
+        { key: "pattern_matcher", label: "Pattern", icon: <FunctionsIcon /> },
       ],
     },
     {
       key: "output",
       icon: <CloudUploadIcon />,
-      tooltip: "Output / Sink",
+      tooltip: "Output",
       items: [
         { key: "plotune_sink", label: "Plotune Sink", icon: <CloudUploadIcon /> },
         { key: "metric_sink", label: "Metric Sink", icon: <DonutSmallIcon /> },
@@ -137,66 +161,111 @@ export default function FlowToolbar() {
         position: "relative",
         zIndex: 15,
         fontFamily: "Roboto, sans-serif",
+        overflowX: "auto",
       }}
     >
       <IconButton
         onClick={() => setExpanded((s) => !s)}
         size="small"
-        style={{ ...iconButtonStyle }}
+        style={{
+          ...iconButtonBase,
+          minWidth: 36,
+          minHeight: 36,
+        }}
         title={expanded ? "Collapse toolbar" : "Expand toolbar"}
       >
         {expanded ? "«" : "»"}
       </IconButton>
 
-      {menuDefs.map((cat) => (
-        <div key={cat.key} style={{ display: "flex", alignItems: "center" }}>
-          <Tooltip title={cat.tooltip}>
-            <IconButton
-              onClick={(e) => openMenu(e, cat.key)}
-              size="small"
-              style={iconButtonStyle}
-            >
-              {cat.icon}
-              {expanded && <span style={{ marginLeft: 8, fontWeight: 600 }}>{cat.tooltip}</span>}
-            </IconButton>
-          </Tooltip>
+      {menuDefs.map((cat) => {
+        const containerStyle = {
+          display: "flex",
+          flexDirection: expanded ? "column" : "row",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: expanded ? 6 : 0,
+          marginRight: 8,
+          padding: expanded ? "6px 4px" : "0px",
+          minWidth: expanded ? 56 : "auto",
+        };
 
-          <Menu
-            anchorEl={anchor}
-            open={openCategory === cat.key}
-            onClose={closeMenu}
-            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-            transformOrigin={{ vertical: "top", horizontal: "left" }}
-          >
-            {cat.items.map((it) => (
-              <MenuItem
-                key={it.key}
-                onClick={() => onAdd(it.key)}
-                style={{ minWidth: 220 }}
+        const labelStyle = {
+          fontSize: 11,
+          fontWeight: 500,
+          marginTop: 4,
+          textAlign: "center",
+          whiteSpace: "nowrap",
+          color: "#263238",
+          opacity: 0.9,
+          maxWidth: 72,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        };
+
+        return (
+          <div key={cat.key} style={containerStyle}>
+            <Tooltip title={cat.tooltip}>
+              <IconButton
+                onClick={(e) => openMenu(e, cat.key)}
+                size="small"
+                style={{
+                  ...iconButtonBase,
+                  minWidth: expanded ? 44 : 36,
+                  minHeight: expanded ? 44 : 36,
+                  boxShadow: expanded ? "0 2px 6px rgba(16,24,40,0.04)" : "none",
+                }}
               >
-                <ListItemIcon style={{ minWidth: 36 }}>{it.icon}</ListItemIcon>
-                <ListItemText primary={it.label} />
-              </MenuItem>
-            ))}
-          </Menu>
-        </div>
-      ))}
+                {cat.icon}
+              </IconButton>
+            </Tooltip>
+
+            {expanded && <div style={labelStyle}>{cat.tooltip}</div>}
+
+            <Menu
+              anchorEl={anchor}
+              open={openCategory === cat.key}
+              onClose={closeMenu}
+              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+              transformOrigin={{ vertical: "top", horizontal: "left" }}
+            >
+              {cat.items.map((it) => (
+                <MenuItem
+                  key={it.key}
+                  onClick={() => onAdd(it.key)}
+                  style={{ minWidth: 220 }}
+                >
+                  <ListItemIcon style={{ minWidth: 36 }}>{it.icon}</ListItemIcon>
+                  <ListItemText primary={it.label} />
+                </MenuItem>
+              ))}
+            </Menu>
+          </div>
+        );
+      })}
 
       <div style={{ flex: 1 }} />
 
       <Tooltip title="Remove Last Node">
-        <IconButton onClick={removeLastNode} size="small" style={iconButtonStyle}>
+        <IconButton
+          onClick={removeLastNode}
+          size="small"
+          style={{ ...iconButtonBase, minWidth: 36, minHeight: 36 }}
+        >
           <AddCircleOutlineIcon style={{ transform: "rotate(45deg)" }} />
-          {expanded && <span style={{ marginLeft: 8 }}>Remove</span>}
         </IconButton>
       </Tooltip>
+      {expanded && <div style={{ marginLeft: 8, fontSize: 12, opacity: 0.9 }}>Remove</div>}
 
       <Tooltip title="Export Flow JSON">
-        <IconButton onClick={exportFlow} size="small" style={iconButtonStyle}>
+        <IconButton
+          onClick={exportFlow}
+          size="small"
+          style={{ ...iconButtonBase, minWidth: 36, minHeight: 36, marginLeft: 12 }}
+        >
           <FileDownloadIcon />
-          {expanded && <span style={{ marginLeft: 8 }}>Export</span>}
         </IconButton>
       </Tooltip>
+      {expanded && <div style={{ marginLeft: 8, fontSize: 12, opacity: 0.9 }}>Export</div>}
     </div>
   );
 }

@@ -1,13 +1,15 @@
 // src/nodes/index.js
 import BaseNode from "./BaseNode";
+import LiveSignalSourceNode from "./LiveSignalSourceNode";
+import ConstantNode from "./ConstantNode";
 
 // map keys -> components
 export const nodeTypes = {
   // Source Nodes
-  live_signal_source: BaseNode,
+  live_signal_source: LiveSignalSourceNode,
   historical_signal_source: BaseNode,
   synthetic_generator: BaseNode,
-  constants: BaseNode,
+  constants: ConstantNode,
 
   // Filter / Condition Nodes
   threshold_filter: BaseNode,

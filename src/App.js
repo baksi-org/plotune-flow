@@ -5,7 +5,7 @@ import "reactflow/dist/style.css";
 import { FlowProvider, useFlow } from "./flow/FlowContext";
 import { nodeTypes } from "./nodes";
 import FlowToolbar from "./flow/FlowToolbar";
-import NodePropertiesPopover from "./components/NodePropertiesPanel"; // ✅ isimle eşleştirdik
+import NodePropertiesPanel from "./components/NodePropertiesPanel";
 
 function FlowCanvas() {
   const {
@@ -18,7 +18,7 @@ function FlowCanvas() {
   } = useFlow();
 
   return (
-    <div style={{ height: "100vh", width: "100%", position: "relative" }}>
+    <div style={{ height: "100vh", width: "100%", position: "relative", overflow: "hidden" }}>
       <FlowToolbar />
       <ReactFlow
         nodes={nodes}
@@ -30,7 +30,7 @@ function FlowCanvas() {
         nodeTypes={nodeTypes}
         fitView
       />
-      <NodePropertiesPopover /> {/* ✅ güncel isim */}
+      <NodePropertiesPanel />
     </div>
   );
 }
