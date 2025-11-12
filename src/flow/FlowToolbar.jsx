@@ -35,7 +35,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import PercentIcon from "@mui/icons-material/Percent";
 
 export default function FlowToolbar() {
-  const { addNode, removeLastNode, exportFlow } = useFlow();
+  const { addNode, clearNodes, exportFlow } = useFlow();
   const [expanded, setExpanded] = useState(false);
 
   // anchor state keyed by category
@@ -245,16 +245,16 @@ export default function FlowToolbar() {
 
       <div style={{ flex: 1 }} />
 
-      <Tooltip title="Remove Last Node">
+      <Tooltip title="Clear All">
         <IconButton
-          onClick={removeLastNode}
+          onClick={clearNodes}
           size="small"
           style={{ ...iconButtonBase, minWidth: 36, minHeight: 36 }}
         >
           <AddCircleOutlineIcon style={{ transform: "rotate(45deg)" }} />
         </IconButton>
       </Tooltip>
-      {expanded && <div style={{ marginLeft: 8, fontSize: 12, opacity: 0.9 }}>Remove</div>}
+      {expanded && <div style={{ marginLeft: 8, fontSize: 12, opacity: 0.9 }}>Clear</div>}
 
       <Tooltip title="Export Flow JSON">
         <IconButton

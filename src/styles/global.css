@@ -52,6 +52,10 @@ input:focus, select:focus, textarea:focus {
   transition: all 0.2s ease;
 }
 
+.react-flow__controls {
+  z-index: 10;
+}
+
 .react-flow__node:active {
   cursor: grabbing;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
@@ -83,10 +87,11 @@ input:focus, select:focus, textarea:focus {
 }
 
 .react-flow__minimap {
-  border: 1px solid #e1e4eb;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
+
 
 /* --- TOOLTIP STYLE --- */
 .MuiTooltip-tooltip {

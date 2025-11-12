@@ -43,6 +43,12 @@ export default function NodePropertiesPanel() {
     setSelectedNode(null);
   };
 
+  const handleDelete = () => {
+    setNodes(nodes.filter((n) => n.id !== selectedNode.id));
+    setVisible(false);
+    setSelectedNode(null);
+  }
+
   const togglePanel = () => setVisible((v) => !v);
 
   if (!visible) {
@@ -117,6 +123,20 @@ export default function NodePropertiesPanel() {
           </div>
         </div>
 
+        <button
+          onClick={handleDelete}
+          style={{
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            fontSize: 18,
+            color: "#374151",
+            padding: 6,
+            borderRadius: 6,
+          }}
+        >
+          <DeleteIcon style={{ verticalAlign: "middle", marginRight: 6 }} />
+        </button>
         <button
           onClick={() => {
             setVisible(false);
@@ -241,7 +261,7 @@ export default function NodePropertiesPanel() {
         >
           Cancel
         </button>
-
+        
         <button
           onClick={handleConfirm}
           style={{

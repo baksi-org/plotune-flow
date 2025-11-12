@@ -60,6 +60,11 @@ export function FlowProvider({ children }) {
     [id]
   );
 
+  const clearNodes = useCallback(() => {
+    setNodes([]);
+    setEdges([]);
+  }, []);
+
   const removeLastNode = useCallback(() => {
     setNodes((nds) => nds.slice(0, -1));
   }, []);
@@ -107,7 +112,7 @@ export function FlowProvider({ children }) {
         onEdgesChange,
         onConnect,
         addNode,
-        removeLastNode,
+        clearNodes,
         selectedNode,
         setSelectedNode,
         setNodes,
