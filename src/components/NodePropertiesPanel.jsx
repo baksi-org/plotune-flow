@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useFlow } from "../flow/FlowContext";
 import { nodePropertiesConfig } from "../nodes";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const TOOLBAR_HEIGHT = 64; // toolbar ile eşleşmeli
 
@@ -91,7 +92,8 @@ export default function NodePropertiesPanel() {
         zIndex: 20,
         display: "flex",
         flexDirection: "column",
-        overflow: "hidden",
+        overflowY: "auto",
+        overflowX: "hidden",
         borderRadius: 12,
       }}
     >

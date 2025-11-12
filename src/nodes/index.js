@@ -1,15 +1,16 @@
 // src/nodes/index.js
 import BaseNode from "./BaseNode";
 import LiveSignalSourceNode from "./LiveSignalSourceNode";
-import ConstantNode from "./ConstantNode";
+import SyntheticGeneratorNode from "./SyntheticGeneratorNode";
+import ConstantsNode from "./ConstantsNode";
 
 // map keys -> components
 export const nodeTypes = {
   // Source Nodes
   live_signal_source: LiveSignalSourceNode,
   historical_signal_source: BaseNode,
-  synthetic_generator: BaseNode,
-  constants: ConstantNode,
+  synthetic_generator: SyntheticGeneratorNode,
+  constants: ConstantsNode,
 
   // Filter / Condition Nodes
   threshold_filter: BaseNode,
@@ -45,10 +46,28 @@ export const nodeTypes = {
 
 // nodePropertiesConfig: minimal default fields (customize later)
 export const nodePropertiesConfig = {
-  live_signal_source: [{ key: "signalName", label: "Signal Name", type: "text" }, { key: "description", label: "Description", type: "text" }],
-  historical_signal_source: [{ key: "signalName", label: "Signal Name", type: "text" }, { key: "description", label: "Description", type: "text" }],
-  synthetic_generator: [{ key: "signalName", label: "Signal Name", type: "text" }, { key: "frequency", label: "Frequency (ms)", type: "text" }],
-  constants: [{ key: "signalName", label: "Signal Name", type: "text" }, { key: "constantValue", label: "Constant Value", type: "text" }],
+  live_signal_source: [
+    { key: "signalName", label: "Signal Name", type: "text" }, 
+    { key: "description", label: "Description", type: "text" }],
+  historical_signal_source: [
+    { key: "signalName", label: "Signal Name", type: "text" }, 
+    { key: "description", label: "Description", type: "text" }],
+  synthetic_generator: [
+    { key: "label", label: "Signal Label", type: "text" }, 
+    { key: "description", label: "Description", type: "text" }, 
+    { key: "waveformType", label: "Waveform Type", type: "select", options: ["sine", "square", "triangle", "sawtooth", "noise"] },
+    { key: "frequency", label: "Frequency (Hz)", type: "number" },
+    { key: "amplitude", label: "Amplitude", type: "number" },
+    { key: "offset", label: "DC Offset", type: "number" },
+    { key: "phase", label: "Phase (deg)", type: "number" },
+    { key: "noiseLevel", label: "Noise Level (%)", type: "number" },
+    { key: "sampleRate", label: "Sample Rate (Hz)", type: "number" },
+    { key: "duration", label: "Duration (s)", type: "number" },
+  ],
+  constants: [
+    { key: "label", label: "Label Name", type: "text" },  
+    { key: "description", label: "Description", type: "text" },
+    { key: "constantValue", label: "Value", type: "text" }],
 
   threshold_filter: [{ key: "threshold", label: "Threshold", type: "text" }],
   value_range_filter: [{ key: "min", label: "Min", type: "text" }, { key: "max", label: "Max", type: "text" }],

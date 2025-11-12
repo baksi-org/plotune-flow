@@ -1,12 +1,11 @@
-// src/nodes/ConstantNode.jsx
 import React from "react";
 import { Handle, Position } from "reactflow";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 
-export default function ConstantNode({ id, data, type }) {
-  const label = data?.signalName || "Constant";
-  const description = data?.constantValue
-    ? `Value: ${data.constantValue}`
-    : "No value set";
+
+export default function SyntheticGeneratorNode({ id, data, type }) {
+  const label = data?.label || `Synthetic Signal`;
+  const description = data?.description || "No description provided";
 
   return (
     <div
@@ -33,9 +32,7 @@ export default function ConstantNode({ id, data, type }) {
             border: "1px solid rgba(13,27,42,0.04)",
           }}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path d="M4 6h16v4H4zM4 14h16v4H4z" fill="#0f1724" opacity="0.9" />
-          </svg>
+          <AutoFixHighIcon style={{ fontSize: 20, color: "#0f1724", opacity: 0.9 }} />
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -46,7 +43,6 @@ export default function ConstantNode({ id, data, type }) {
 
       <div style={{ fontSize: 12, color: "#374151" }}>{description}</div>
 
-      {/* Only one output handle at the bottom */}
       <Handle
         type="source"
         position={Position.Bottom}

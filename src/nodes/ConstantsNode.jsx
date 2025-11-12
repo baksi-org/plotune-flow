@@ -1,10 +1,10 @@
-// src/nodes/LiveSignalSourceNode.jsx
 import React from "react";
 import { Handle, Position } from "reactflow";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 
-export default function LiveSignalSourceNode({ id, data, type }) {
-  const label = data?.signalName || `Live Signal`;
+
+export default function ConstansNode({ id, data, type }) {
+  const label = data?.label || `Constant Signal`;
   const description = data?.description || "No description provided";
 
   return (
@@ -32,8 +32,7 @@ export default function LiveSignalSourceNode({ id, data, type }) {
             border: "1px solid rgba(13,27,42,0.04)",
           }}
         >
-          
-          <FiberManualRecordIcon style={{ fontSize: 20, color: "#0f1724", opacity: 0.9 }} />
+          <DonutSmallIcon style={{ fontSize: 20, color: "#0f1724", opacity: 0.9 }} />
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -44,7 +43,6 @@ export default function LiveSignalSourceNode({ id, data, type }) {
 
       <div style={{ fontSize: 12, color: "#374151" }}>{description}</div>
 
-      {/* Only one output handle at the bottom */}
       <Handle
         type="source"
         position={Position.Bottom}
