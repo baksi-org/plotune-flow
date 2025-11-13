@@ -197,6 +197,7 @@ export default function FlowToolbar() {
             borderRadius: 18,
             cursor: "pointer",
             boxShadow: "0 4px 12px rgba(6,18,40,0.06)",
+            hightQuality: "high",
           }}
         />
       </a>
