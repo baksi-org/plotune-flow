@@ -6,7 +6,6 @@ const FlowContext = createContext();
 export const useFlow = () => useContext(FlowContext);
 
 function formatTimestampForFilename(date = new Date()) {
-  // YYYYMMDD_HHMMSS
   const pad = (n) => String(n).padStart(2, "0");
   const Y = date.getFullYear();
   const M = pad(date.getMonth() + 1);
@@ -31,6 +30,7 @@ export function FlowProvider({ children }) {
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     []
   );
+
   const onConnect = useCallback(
     (connection) =>
       setEdges((eds) =>
@@ -69,9 +69,6 @@ export function FlowProvider({ children }) {
     setNodes((nds) => nds.slice(0, -1));
   }, []);
 
-  // -------------------------
-  // Export fonksiyonu
-  // -------------------------
   const exportFlow = useCallback(() => {
     try {
       const payload = {
@@ -83,7 +80,7 @@ export function FlowProvider({ children }) {
         edges,
       };
 
-      const json = JSON.stringify(payload, null, 2); // prettified
+      const json = JSON.stringify(payload, null, 2);
       const blob = new Blob([json], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const filename = `flow-${formatTimestampForFilename()}.json`;
@@ -95,10 +92,8 @@ export function FlowProvider({ children }) {
       a.click();
       a.remove();
 
-      // cleanup
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     } catch (err) {
-      // istersen burada UI için hata yönetimi ekleyebilirsin
       console.error("Export failed:", err);
     }
   }, [nodes, edges]);
@@ -107,16 +102,18 @@ export function FlowProvider({ children }) {
     <FlowContext.Provider
       value={{
         nodes,
+        setNodes,
         edges,
+        setEdges,
         onNodesChange,
         onEdgesChange,
         onConnect,
         addNode,
         clearNodes,
+        removeLastNode,
         selectedNode,
         setSelectedNode,
-        setNodes,
-        exportFlow, // <-- burada expose ediyoruz
+        exportFlow,
       }}
     >
       {children}

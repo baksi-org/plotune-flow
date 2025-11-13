@@ -28,10 +28,17 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import CloseIcon from "@mui/icons-material/Close";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 
+
 import logoImg from "../assets/logo.png";
 
 export default function FlowToolbar() {
-  const { addNode, clearNodes, exportFlow } = useFlow();
+  const {
+    addNode,
+    clearNodes,
+    exportFlow,
+    setNodes,
+    setEdges,
+  } = useFlow();
   const [expanded, setExpanded] = useState(false);
 
   const [anchor, setAnchor] = useState(null);
@@ -50,7 +57,28 @@ export default function FlowToolbar() {
     addNode(typeKey);
     closeMenu();
   };
+  const handleLoad = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const json = JSON.parse(ev.target.result);
+        if (json.nodes && json.edges) {
+          setNodes(json.nodes);
+          setEdges(json.edges);
+          console.log("✅ Flow loaded successfully");
+        } else {
+          alert("Invalid flow JSON format.");
+        }
+      } catch (err) {
+        alert("Failed to parse JSON file.");
+        console.error(err);
+      }
+    };
+    reader.readAsText(file);
+  };
   const iconButtonBase = {
     borderRadius: 8,
     padding: 8,
@@ -262,6 +290,18 @@ export default function FlowToolbar() {
         </IconButton>
       </Tooltip>
       {expanded && <div style={{ marginLeft: 8, fontSize: 12, opacity: 0.9 }}>Clear</div>}
+      
+      <Tooltip title="Load Flow JSON">
+        <IconButton
+          component="label"
+          size="small"
+          style={{ ...iconButtonBase, minWidth: 36, minHeight: 36, marginLeft: 12 }}
+        >
+          <input type="file" accept=".json" hidden onChange={handleLoad} />
+          <FileDownloadIcon style={{ transform: "rotate(180deg)" }} />
+        </IconButton>
+      </Tooltip>
+      {expanded && <div style={{ marginLeft: 8, fontSize: 12, opacity: 0.9 }}>Load</div>}
 
       <Tooltip title="Export Flow JSON">
         <IconButton onClick={exportFlow} size="small" style={{ ...iconButtonBase, minWidth: 36, minHeight: 36, marginLeft: 12 }}>
