@@ -125,10 +125,10 @@ export default function FlowToolbar() {
       icon: <FunctionsIcon />,
       tooltip: "Math",
       items: [
-        { key: "sum", label: "Sum", icon: <AddCircleOutlineIcon /> },
-        { key: "subtract", label: "Subtract", icon: <RemoveIcon /> },
-        { key: "multiply", label: "Multiply", icon: <CloseIcon /> },
-        { key: "divide", label: "Divide", icon: <HorizontalRuleIcon /> },
+        { key: "sum_node", label: "Sum", icon: <AddCircleOutlineIcon /> },
+        // { key: "subtract", label: "Subtract", icon: <RemoveIcon /> },
+        { key: "multiply_node", label: "Multiply", icon: <CloseIcon /> },
+        { key: "divide_node", label: "Divide", icon: <HorizontalRuleIcon /> },
       ],
     },
     {
@@ -137,12 +137,12 @@ export default function FlowToolbar() {
       tooltip: "Logic",
       items: [
         { key: "if_else", label: "If / Else", icon: <CallSplitIcon /> },
-        { key: "switch", label: "Switch", icon: <MergeTypeIcon /> },
-        { key: "merge", label: "Merge", icon: <MergeTypeIcon /> },
-        { key: "join", label: "Join", icon: <DeviceHubIcon /> },
+        // { key: "switch", label: "Switch", icon: <MergeTypeIcon /> },
+        // { key: "merge", label: "Merge", icon: <MergeTypeIcon /> },
+        // { key: "join", label: "Join", icon: <DeviceHubIcon /> },
       ],
     },
-    {
+    /*{ // TODO: implement feature nodes
       key: "feature",
       icon: <TrendingUpIcon />,
       tooltip: "Feature",
@@ -151,15 +151,15 @@ export default function FlowToolbar() {
         { key: "event_correlation", label: "Correlation", icon: <DeviceHubIcon /> },
         { key: "pattern_matcher", label: "Pattern", icon: <FunctionsIcon /> },
       ],
-    },
+    },*/
     {
       key: "output",
       icon: <CloudUploadIcon />,
       tooltip: "Output",
       items: [
         { key: "plotune_sink", label: "Plotune Sink", icon: <CloudUploadIcon /> },
-        { key: "metric_sink", label: "Metric Sink", icon: <DonutSmallIcon /> },
-        { key: "alerts", label: "Alerts", icon: <FiberManualRecordIcon /> },
+        // { key: "metric_sink", label: "Metric Sink", icon: <DonutSmallIcon /> }, // No idea what this should functionally look like
+        // { key: "alerts", label: "Alerts", icon: <FiberManualRecordIcon /> }, // No alert functionallity yet
         { key: "storage", label: "Storage", icon: <HistoryIcon /> },
       ],
     },
