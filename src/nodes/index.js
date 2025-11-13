@@ -3,6 +3,9 @@ import BaseNode from "./BaseNode";
 import LiveSignalSourceNode from "./LiveSignalSourceNode";
 import SyntheticGeneratorNode from "./SyntheticGeneratorNode";
 import ConstantsNode from "./ConstantsNode";
+import ThresholdNode from "./ThresholdNode";
+import ValueRangeFilterNode from "./ValueRangeFilterNode";
+import ExpressionNode from "./ExpressionNode";
 
 // map keys -> components
 export const nodeTypes = {
@@ -13,9 +16,9 @@ export const nodeTypes = {
   constants: ConstantsNode,
 
   // Filter / Condition Nodes
-  threshold_filter: BaseNode,
-  value_range_filter: BaseNode,
-  expression_filter: BaseNode,
+  threshold_filter: ThresholdNode,
+  value_range_filter: ValueRangeFilterNode,
+  expression_filter: ExpressionNode,
   deduplication_filter: BaseNode,
 
   // Transformation Nodes
@@ -69,9 +72,22 @@ export const nodePropertiesConfig = {
     { key: "description", label: "Description", type: "text" },
     { key: "constantValue", label: "Value", type: "text" }],
 
-  threshold_filter: [{ key: "threshold", label: "Threshold", type: "text" }],
-  value_range_filter: [{ key: "min", label: "Min", type: "text" }, { key: "max", label: "Max", type: "text" }],
-  expression_filter: [{ key: "expr", label: "Expression", type: "text" }],
+  threshold_filter: [
+    { key: "label", label: "Label Name", type: "text" },
+    { key: "threshold", label: "Threshold", type: "number" }],
+  value_range_filter: [
+    { key: "label", label: "Label Name", type: "text" },
+    { key: "description", label: "Description", type: "text" },
+    { key: "min", label: "Min", type: "number" }, 
+    { key: "max", label: "Max", type: "number" },
+    { key: "inclusive", label: "Inclusive", type: "checkbox"},
+    { key: "exclude", label: "Exclude", type: "checkbox"},
+    { key: "action", label: "Action", type: "select", options: ["pass", "limit", "block"] }
+  ],
+  expression_filter: [
+    { key: "signalName", label: "Signal Name", type: "text" },
+    { key: "description", label: "Description", type: "text" },
+    { key: "expr", label: "Expression", type: "text" }],
   deduplication_filter: [{ key: "window", label: "Window (ms)", type: "text" }],
 
   map_transform: [{ key: "mapExpr", label: "Map Expression", type: "text" }],

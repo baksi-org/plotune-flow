@@ -8,7 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-// category icons
+// icons
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -24,21 +24,16 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import FunctionsIcon from "@mui/icons-material/Functions";
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import MergeTypeIcon from "@mui/icons-material/MergeType";
-
-// math operation icons (unique)
 import RemoveIcon from "@mui/icons-material/Remove";
 import CloseIcon from "@mui/icons-material/Close";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
-import CalculateIcon from "@mui/icons-material/Calculate";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import PercentIcon from "@mui/icons-material/Percent";
+
+import logoImg from "../assets/logo.png";
 
 export default function FlowToolbar() {
   const { addNode, clearNodes, exportFlow } = useFlow();
   const [expanded, setExpanded] = useState(false);
 
-  // anchor state keyed by category
   const [anchor, setAnchor] = useState(null);
   const [openCategory, setOpenCategory] = useState(null);
 
@@ -62,7 +57,6 @@ export default function FlowToolbar() {
     transition: "all 0.18s ease",
   };
 
-  // menu definitions
   const menuDefs = [
     {
       key: "source",
@@ -70,7 +64,6 @@ export default function FlowToolbar() {
       tooltip: "Source",
       items: [
         { key: "live_signal_source", label: "Live Signal", icon: <FiberManualRecordIcon /> },
-        // { key: "historical_signal_source", label: "Historical", icon: <HistoryIcon /> },
         { key: "synthetic_generator", label: "Synthetic", icon: <AutoFixHighIcon /> },
         { key: "constants", label: "Constants", icon: <DonutSmallIcon /> },
       ],
@@ -99,7 +92,6 @@ export default function FlowToolbar() {
         { key: "smoothing", label: "Smoothing", icon: <HistoryIcon /> },
       ],
     },
-    // Math / Operations (7 unique icons)
     {
       key: "math",
       icon: <FunctionsIcon />,
@@ -109,9 +101,6 @@ export default function FlowToolbar() {
         { key: "subtract", label: "Subtract", icon: <RemoveIcon /> },
         { key: "multiply", label: "Multiply", icon: <CloseIcon /> },
         { key: "divide", label: "Divide", icon: <HorizontalRuleIcon /> },
-        // { key: "average", label: "Average", icon: <CalculateIcon /> },
-        // { key: "max", label: "Max", icon: <ArrowUpwardIcon /> },
-        // { key: "min", label: "Min", icon: <ArrowDownwardIcon /> },
       ],
     },
     {
@@ -164,6 +153,26 @@ export default function FlowToolbar() {
         overflowX: "auto",
       }}
     >
+      {/* Logo */}
+      <a
+        href="https://plotune.net"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ display: "flex", alignItems: "center", gap: 8 }}
+      >
+        <img
+          src={logoImg}
+          alt="Plotune"
+          style={{
+            width: expanded ? 48 : 36,
+            height: expanded ? 48 : 36,
+            borderRadius: 18,
+            cursor: "pointer",
+            boxShadow: "0 4px 12px rgba(6,18,40,0.06)",
+          }}
+        />
+      </a>
+
       <IconButton
         onClick={() => setExpanded((s) => !s)}
         size="small"
@@ -229,11 +238,7 @@ export default function FlowToolbar() {
               transformOrigin={{ vertical: "top", horizontal: "left" }}
             >
               {cat.items.map((it) => (
-                <MenuItem
-                  key={it.key}
-                  onClick={() => onAdd(it.key)}
-                  style={{ minWidth: 220 }}
-                >
+                <MenuItem key={it.key} onClick={() => onAdd(it.key)} style={{ minWidth: 220 }}>
                   <ListItemIcon style={{ minWidth: 36 }}>{it.icon}</ListItemIcon>
                   <ListItemText primary={it.label} />
                 </MenuItem>
@@ -247,7 +252,9 @@ export default function FlowToolbar() {
 
       <Tooltip title="Clear All">
         <IconButton
-          onClick={clearNodes}
+          onClick={() => {
+            if (window.confirm("Clear all nodes and edges?")) clearNodes();
+          }}
           size="small"
           style={{ ...iconButtonBase, minWidth: 36, minHeight: 36 }}
         >
@@ -257,11 +264,7 @@ export default function FlowToolbar() {
       {expanded && <div style={{ marginLeft: 8, fontSize: 12, opacity: 0.9 }}>Clear</div>}
 
       <Tooltip title="Export Flow JSON">
-        <IconButton
-          onClick={exportFlow}
-          size="small"
-          style={{ ...iconButtonBase, minWidth: 36, minHeight: 36, marginLeft: 12 }}
-        >
+        <IconButton onClick={exportFlow} size="small" style={{ ...iconButtonBase, minWidth: 36, minHeight: 36, marginLeft: 12 }}>
           <FileDownloadIcon />
         </IconButton>
       </Tooltip>

@@ -43,7 +43,7 @@ export default function BaseNode({ id, data, type }) {
 
       <div style={{ fontSize: 12, color: "#374151" }}>
         {/* placeholder subtitle */}
-        {data?.description || "Placeholder node — implement logic later"}
+        {data?.description || "Placeholder node — Not implemented"}
       </div>
 
       {/* top input handle */}

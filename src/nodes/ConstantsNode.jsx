@@ -1,11 +1,22 @@
+// src/nodes/LiveSignalSourceNode.jsx
 import React from "react";
 import { Handle, Position } from "reactflow";
+
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 
-
-export default function ConstansNode({ id, data, type }) {
+export default function ConstantsNode({ id, data, type }) {
   const label = data?.label || `Constant Signal`;
   const description = data?.description || "No description provided";
+
+  // Define your input and output IDs
+  const inputHandles = [];
+  const outputHandles = ["output"];
+
+  // helper to compute left position percentage
+  const getLeft = (index, total) => {
+    const spacing = 100 / (total + 1);
+    return `${spacing * (index + 1)}%`;
+  };
 
   return (
     <div
@@ -17,8 +28,10 @@ export default function ConstansNode({ id, data, type }) {
         width: 220,
         boxShadow: "0 6px 18px rgba(6,18,40,0.04)",
         fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto",
+        position: "relative",
       }}
     >
+      {/* Header */}
       <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
         <div
           style={{
@@ -41,14 +54,77 @@ export default function ConstansNode({ id, data, type }) {
         </div>
       </div>
 
-      <div style={{ fontSize: 12, color: "#374151" }}>{description}</div>
+      <div style={{ fontSize: 12, color: "#374151", marginBottom: 16 }}>{description}</div>
 
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="out"
-        style={{ background: "#0969da", border: "none", width: 12, height: 12 }}
-      />
+      {/* Input handles (TOP) */}
+      {inputHandles.map((hid, idx) => {
+        const left = getLeft(idx, inputHandles.length);
+        return (
+          <React.Fragment key={hid}>
+            <Handle
+              type="target"
+              position={Position.Top}
+              id={hid}
+              style={{
+                left,
+                transform: "translateX(-50%)",
+                background: "#9ca3af",
+                border: "none",
+                width: 12,
+                height: 12,
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                top: -24,
+                left,
+                transform: "translateX(-50%)",
+                fontSize: 9,
+                borderRadius: 4,
+                color: "rgba(10, 16, 23, 0.74)",
+              }}
+            >
+              {hid}
+            </div>
+          </React.Fragment>
+        );
+      })}
+
+      {/* Output handles (BOTTOM) */}
+      {outputHandles.map((hid, idx) => {
+        const left = getLeft(idx, outputHandles.length);
+        return (
+          <React.Fragment key={hid}>
+            <Handle
+              type="source"
+              position={Position.Bottom}
+              id={hid}
+              style={{
+                left,
+                transform: "translateX(-50%)",
+                background: "#0969da",
+                border: "none",
+                width: 12,
+                height: 12,
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                bottom: -24,
+                left,
+                transform: "translateX(-50%)",
+                fontSize: 9,
+                borderRadius: 4,
+                color: "rgba(10, 16, 23, 0.74)",
+              }}
+            >
+              {hid}
+            </div>
+          </React.Fragment>
+        );
+      })}
     </div>
   );
 }

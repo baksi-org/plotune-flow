@@ -1,14 +1,15 @@
 // src/nodes/LiveSignalSourceNode.jsx
 import React from "react";
 import { Handle, Position } from "reactflow";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
-export default function LiveSignalSourceNode({ id, data, type }) {
-  const label = data?.signalName || `Live Signal`;
+import FunctionsIcon from "@mui/icons-material/Functions";
+
+export default function ValueRangeFilterNode({ id, data, type }) {
+  const label = data?.label || `Value Range Filter`;
   const description = data?.description || "No description provided";
 
   // Define your input and output IDs
-  const inputHandles = [];
+  const inputHandles = ["input"];
   const outputHandles = ["output"];
 
   // helper to compute left position percentage
@@ -44,7 +45,7 @@ export default function LiveSignalSourceNode({ id, data, type }) {
             border: "1px solid rgba(13,27,42,0.04)",
           }}
         >
-          <FiberManualRecordIcon style={{ fontSize: 20, color: "#0f1724", opacity: 0.9 }} />
+          <FunctionsIcon style={{ fontSize: 20, color: "#0f1724", opacity: 0.9 }} />
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>

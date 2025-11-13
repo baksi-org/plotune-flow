@@ -3,12 +3,12 @@ import React from "react";
 import { Handle, Position } from "reactflow";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
-export default function LiveSignalSourceNode({ id, data, type }) {
-  const label = data?.signalName || `Live Signal`;
+export default function ThresholdNode({ id, data, type }) {
+  const label = data?.label || `Threshold Filter`;
   const description = data?.description || "No description provided";
 
   // Define your input and output IDs
-  const inputHandles = [];
+  const inputHandles = ["input"];
   const outputHandles = ["output"];
 
   // helper to compute left position percentage
