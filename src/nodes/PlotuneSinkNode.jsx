@@ -30,7 +30,7 @@ export default function PlotuneSinkNode({ id, data, type }) {
         borderRadius: 10,
         padding: 12,
         width: 240,
-        boxShadow: "0 6px 18px rgba(6,18,40,0.04)",
+        boxShadow: "0 6px 18px rgba(41, 41, 41, 0.74)",
         fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto",
         position: "relative",
       }}
