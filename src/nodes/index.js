@@ -8,6 +8,10 @@ import ValueRangeFilterNode from "./ValueRangeFilterNode";
 import ExpressionNode from "./ExpressionNode";
 import PlotuneSinkNode from "./PlotuneSinkNode";
 
+import SumSignalNode from "./SumSignalNode";
+import MultiplySignalNode from "./MultiplySignalNode";
+import DivideSignalNode from "./DivideSignalNode";
+
 // map keys -> components
 export const nodeTypes = {
   // Source Nodes
@@ -29,6 +33,11 @@ export const nodeTypes = {
   derivative_delta: BaseNode,
   fft_transform: BaseNode,
   smoothing: BaseNode,
+
+  // Math Nodes
+  sum_node: SumSignalNode,
+  multiply_node: MultiplySignalNode,
+  divide_node: DivideSignalNode,
 
   // Logic / Branching
   if_else: BaseNode,
@@ -75,6 +84,7 @@ export const nodePropertiesConfig = {
 
   threshold_filter: [
     { key: "label", label: "Label Name", type: "text" },
+    { key: "type", label: "Type", type: "select", options: ["above", "below"] },
     { key: "threshold", label: "Threshold", type: "number" }],
   value_range_filter: [
     { key: "label", label: "Label Name", type: "text" },
@@ -97,6 +107,10 @@ export const nodePropertiesConfig = {
   derivative_delta: [{ key: "period", label: "Period", type: "text" }],
   fft_transform: [{ key: "n", label: "N (samples)", type: "text" }],
   smoothing: [{ key: "method", label: "Method", type: "text" }],
+
+  sum_node: [{ key: "signalName", label: "Signal Name", type: "text" }],
+  multiply_node: [{ key: "signalName", label: "Signal Name", type: "text" }],
+  divide_node: [{ key: "signalName", label: "Signal Name", type: "text" }],
 
   if_else: [{ key: "condition", label: "Condition", type: "text" }],
   switch: [{ key: "cases", label: "Cases", type: "text" }],
