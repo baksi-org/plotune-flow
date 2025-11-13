@@ -6,6 +6,7 @@ import ConstantsNode from "./ConstantsNode";
 import ThresholdNode from "./ThresholdNode";
 import ValueRangeFilterNode from "./ValueRangeFilterNode";
 import ExpressionNode from "./ExpressionNode";
+import PlotuneSinkNode from "./PlotuneSinkNode";
 
 // map keys -> components
 export const nodeTypes = {
@@ -41,7 +42,7 @@ export const nodeTypes = {
   pattern_matcher: BaseNode,
 
   // Output / Sink
-  plotune_sink: BaseNode,
+  plotune_sink: PlotuneSinkNode,
   metric_sink: BaseNode,
   alerts: BaseNode,
   storage: BaseNode,
@@ -106,7 +107,12 @@ export const nodePropertiesConfig = {
   event_correlation: [{ key: "window", label: "Window", type: "text" }],
   pattern_matcher: [{ key: "pattern", label: "Pattern", type: "text" }],
 
-  plotune_sink: [{ key: "target", label: "Target", type: "text" }],
+  plotune_sink: [
+    { key: "description", label: "Description", type: "text"},
+    { key: "targetType", label: "Target Type", type: "select", options: ["local", "remote"] },
+    { key: "ip", label: "IP Address", type: "text" },
+    { key: "port", label: "Port", type: "number" }
+  ],
   metric_sink: [{ key: "metricName", label: "Metric Name", type: "text" }],
   alerts: [{ key: "alertName", label: "Alert Name", type: "text" }],
   storage: [{ key: "path", label: "Storage Path", type: "text" }],
