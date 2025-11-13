@@ -21,11 +21,11 @@ export default function SyntheticGeneratorNode({ id, data, type }) {
     <div
       style={{
         background: "#ffffff",
-        border: "1px solid rgba(13,27,42,0.06)",
+        border: "1px solid rgba(8, 80, 214, 1)",
         borderRadius: 10,
         padding: 12,
         width: 220,
-        boxShadow: "0 6px 18px rgba(6,18,40,0.04)",
+        boxShadow: "0 6px 24px rgba(8, 80, 214, 0.15)",
         fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto",
         position: "relative",
       }}
