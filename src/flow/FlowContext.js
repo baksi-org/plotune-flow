@@ -37,7 +37,7 @@ export function FlowProvider({ children }) {
         addEdge(
           {
             ...connection,
-            type: "smoothstep",
+            type: "segmented",
             style: { stroke: "#555", strokeWidth: 1.5 },
           },
           eds

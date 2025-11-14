@@ -21,7 +21,7 @@ export default function FlowEditor() {
         fitView
         connectionLineStyle={{ stroke: "#555", strokeWidth: 1.5 }}
         defaultEdgeOptions={{
-          type: "smoothstep",
+          type: "segmented",
           style: { stroke: "#555", strokeWidth: 1.5 },
         }}
       >

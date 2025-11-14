@@ -184,7 +184,6 @@ export default function FlowToolbar() {
       {/* Logo */}
       <a
         href="https://plotune.net"
-        target="_blank"
         rel="noopener noreferrer"
         style={{ display: "flex", alignItems: "center", gap: 8 }}
       >
@@ -221,8 +220,8 @@ export default function FlowToolbar() {
           flexDirection: expanded ? "column" : "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: expanded ? 6 : 0,
-          marginRight: 8,
+          gap: expanded ? 4 : 0,
+          marginRight: 4,
           padding: expanded ? "6px 4px" : "0px",
           minWidth: expanded ? 56 : "auto",
         };
@@ -248,8 +247,8 @@ export default function FlowToolbar() {
                 size="small"
                 style={{
                   ...iconButtonBase,
-                  minWidth: expanded ? 44 : 36,
-                  minHeight: expanded ? 44 : 36,
+                  minWidth: expanded ? 36 : 24,
+                  minHeight: expanded ? 36 : 24,
                   boxShadow: expanded ? "0 2px 6px rgba(16,24,40,0.04)" : "none",
                 }}
               >
@@ -279,37 +278,53 @@ export default function FlowToolbar() {
 
       <div style={{ flex: 1 }} />
 
-      <Tooltip title="Clear All">
-        <IconButton
-          onClick={() => {
-            if (window.confirm("Clear all nodes and edges?")) clearNodes();
-          }}
-          size="small"
-          style={{ ...iconButtonBase, minWidth: 36, minHeight: 36 }}
-        >
-          <AddCircleOutlineIcon style={{ transform: "rotate(45deg)" }} />
-        </IconButton>
-      </Tooltip>
-      {expanded && <div style={{ marginLeft: 8, fontSize: 12, opacity: 0.9 }}>Clear</div>}
-      
-      <Tooltip title="Load Flow JSON">
-        <IconButton
-          component="label"
-          size="small"
-          style={{ ...iconButtonBase, minWidth: 36, minHeight: 36, marginLeft: 12 }}
-        >
-          <input type="file" accept=".json" hidden onChange={handleLoad} />
-          <FileDownloadIcon style={{ transform: "rotate(180deg)" }} />
-        </IconButton>
-      </Tooltip>
-      {expanded && <div style={{ marginLeft: 8, fontSize: 12, opacity: 0.9 }}>Load</div>}
+      {/* Right side controls: now labels are placed under icons (like categories) */}
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {/* Clear */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
+          <Tooltip title="Clear All">
+            <IconButton
+              onClick={() => {
+                if (window.confirm("Clear all nodes and edges?")) clearNodes();
+              }}
+              size="small"
+              style={{ ...iconButtonBase, minWidth: 36, minHeight: 36 }}
+            >
+              <AddCircleOutlineIcon style={{ transform: "rotate(45deg)" }} />
+            </IconButton>
+          </Tooltip>
+          {expanded && <div style={{ fontSize: 12, opacity: 0.9 }}>Clear</div>}
+        </div>
 
-      <Tooltip title="Export Flow JSON">
-        <IconButton onClick={exportFlow} size="small" style={{ ...iconButtonBase, minWidth: 36, minHeight: 36, marginLeft: 12 }}>
-          <FileDownloadIcon />
-        </IconButton>
-      </Tooltip>
-      {expanded && <div style={{ marginLeft: 8, fontSize: 12, opacity: 0.9 }}>Export</div>}
+        {/* Load */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+          <Tooltip title="Load Flow JSON">
+            <IconButton
+              component="label"
+              size="small"
+              style={{ ...iconButtonBase, minWidth: 36, minHeight: 36 }}
+            >
+              <input type="file" accept=".json" hidden onChange={handleLoad} />
+              <FileDownloadIcon style={{ transform: "rotate(180deg)" }} />
+            </IconButton>
+          </Tooltip>
+          {expanded && <div style={{ fontSize: 12, opacity: 0.9 }}>Load</div>}
+        </div>
+
+        {/* Export */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+          <Tooltip title="Export Flow JSON">
+            <IconButton
+              onClick={exportFlow}
+              size="small"
+              style={{ ...iconButtonBase, minWidth: 36, minHeight: 36 }}
+            >
+              <FileDownloadIcon />
+            </IconButton>
+          </Tooltip>
+          {expanded && <div style={{ fontSize: 12, opacity: 0.9 }}>Export</div>}
+        </div>
+      </div>
     </div>
   );
 }
