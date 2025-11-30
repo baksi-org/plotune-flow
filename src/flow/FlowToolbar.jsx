@@ -1,5 +1,5 @@
 // src/flow/FlowToolbar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFlow } from "../flow/FlowContext";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
@@ -27,7 +27,8 @@ import MergeTypeIcon from "@mui/icons-material/MergeType";
 import RemoveIcon from "@mui/icons-material/Remove";
 import CloseIcon from "@mui/icons-material/Close";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
-
+import Brightness4Icon from "@mui/icons-material/Brightness4"; // Dark mode icon
+import Brightness7Icon from "@mui/icons-material/Brightness7"; // Light mode icon
 
 import logoImg from "../assets/logo.png";
 
@@ -40,9 +41,51 @@ export default function FlowToolbar() {
     setEdges,
   } = useFlow();
   const [expanded, setExpanded] = useState(false);
-
   const [anchor, setAnchor] = useState(null);
   const [openCategory, setOpenCategory] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
+
+// Initialize dark mode from system preference
+useEffect(() => {
+  const isDarkSystem = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const savedMode = localStorage.getItem('darkMode');
+  
+  if (savedMode !== null) {
+    const isDark = savedMode === 'true';
+    setDarkMode(isDark);
+    if (isDark) {
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
+    } else {
+      document.documentElement.classList.add('light-mode');
+      document.documentElement.classList.remove('dark-mode');
+    }
+  } else {
+    // No saved preference, use system
+    setDarkMode(isDarkSystem);
+    if (isDarkSystem) {
+      document.documentElement.classList.add('dark-mode');
+    } else {
+      document.documentElement.classList.add('light-mode');
+    }
+  }
+}, []);
+
+// Apply dark mode class to document
+useEffect(() => {
+  if (darkMode) {
+    document.documentElement.classList.add('dark-mode');
+    document.documentElement.classList.remove('light-mode');
+  } else {
+    document.documentElement.classList.add('light-mode');
+    document.documentElement.classList.remove('dark-mode');
+  }
+  localStorage.setItem('darkMode', darkMode.toString());
+}, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   const openMenu = (event, category) => {
     setAnchor(event.currentTarget);
@@ -79,6 +122,7 @@ export default function FlowToolbar() {
     };
     reader.readAsText(file);
   };
+
   const iconButtonBase = {
     borderRadius: 8,
     padding: 8,
@@ -126,7 +170,6 @@ export default function FlowToolbar() {
       tooltip: "Math",
       items: [
         { key: "sum_node", label: "Sum", icon: <AddCircleOutlineIcon /> },
-        // { key: "subtract", label: "Subtract", icon: <RemoveIcon /> },
         { key: "multiply_node", label: "Multiply", icon: <CloseIcon /> },
         { key: "divide_node", label: "Divide", icon: <HorizontalRuleIcon /> },
       ],
@@ -137,29 +180,14 @@ export default function FlowToolbar() {
       tooltip: "Logic",
       items: [
         { key: "if_else", label: "If / Else", icon: <CallSplitIcon /> },
-        // { key: "switch", label: "Switch", icon: <MergeTypeIcon /> },
-        // { key: "merge", label: "Merge", icon: <MergeTypeIcon /> },
-        // { key: "join", label: "Join", icon: <DeviceHubIcon /> },
       ],
     },
-    /*{ // TODO: implement feature nodes
-      key: "feature",
-      icon: <TrendingUpIcon />,
-      tooltip: "Feature",
-      items: [
-        { key: "trend_detector", label: "Trend", icon: <TrendingUpIcon /> },
-        { key: "event_correlation", label: "Correlation", icon: <DeviceHubIcon /> },
-        { key: "pattern_matcher", label: "Pattern", icon: <FunctionsIcon /> },
-      ],
-    },*/
     {
       key: "output",
       icon: <CloudUploadIcon />,
       tooltip: "Output",
       items: [
         { key: "plotune_sink", label: "Plotune Sink", icon: <CloudUploadIcon /> },
-        // { key: "metric_sink", label: "Metric Sink", icon: <DonutSmallIcon /> }, // No idea what this should functionally look like
-        // { key: "alerts", label: "Alerts", icon: <FiberManualRecordIcon /> }, // No alert functionallity yet
         { key: "storage", label: "Storage", icon: <HistoryIcon /> },
       ],
     },
@@ -172,13 +200,14 @@ export default function FlowToolbar() {
         alignItems: "center",
         padding: "8px 12px",
         gap: 8,
-        borderBottom: "1px solid #e1e4eb",
-        background: "#fff",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+        borderBottom: "1px solid var(--border)",
+        background: "var(--surface)",
+        boxShadow: "var(--shadow-sm)",
         position: "relative",
         zIndex: 15,
-        fontFamily: "Roboto, sans-serif",
+        fontFamily: "var(--font-sans)",
         overflowX: "auto",
+        color: "var(--text)",
       }}
     >
       {/* Logo */}
@@ -195,7 +224,7 @@ export default function FlowToolbar() {
             height: expanded ? 48 : 36,
             borderRadius: 18,
             cursor: "pointer",
-            boxShadow: "0 4px 12px rgba(6,18,40,0.06)",
+            boxShadow: "var(--shadow-sm)",
             hightQuality: "high",
           }}
         />
@@ -208,6 +237,7 @@ export default function FlowToolbar() {
           ...iconButtonBase,
           minWidth: 36,
           minHeight: 36,
+          color: "var(--text)",
         }}
         title={expanded ? "Collapse toolbar" : "Expand toolbar"}
       >
@@ -232,7 +262,7 @@ export default function FlowToolbar() {
           marginTop: 4,
           textAlign: "center",
           whiteSpace: "nowrap",
-          color: "#263238",
+          color: "var(--subtext)",
           opacity: 0.9,
           maxWidth: 72,
           overflow: "hidden",
@@ -249,7 +279,9 @@ export default function FlowToolbar() {
                   ...iconButtonBase,
                   minWidth: expanded ? 36 : 24,
                   minHeight: expanded ? 36 : 24,
-                  boxShadow: expanded ? "0 2px 6px rgba(16,24,40,0.04)" : "none",
+                  boxShadow: expanded ? "var(--shadow-sm)" : "none",
+                  color: "var(--text)",
+                  backgroundColor: expanded ? "var(--glass)" : "transparent",
                 }}
               >
                 {cat.icon}
@@ -264,11 +296,30 @@ export default function FlowToolbar() {
               onClose={closeMenu}
               anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
               transformOrigin={{ vertical: "top", horizontal: "left" }}
+              PaperProps={{
+                style: {
+                  backgroundColor: 'var(--surface)',
+                  color: 'var(--text)',
+                  backgroundImage: 'none',
+                }
+              }}
             >
               {cat.items.map((it) => (
-                <MenuItem key={it.key} onClick={() => onAdd(it.key)} style={{ minWidth: 220 }}>
-                  <ListItemIcon style={{ minWidth: 36 }}>{it.icon}</ListItemIcon>
-                  <ListItemText primary={it.label} />
+                <MenuItem 
+                  key={it.key} 
+                  onClick={() => onAdd(it.key)} 
+                  style={{ 
+                    minWidth: 220,
+                    color: 'var(--text)',
+                  }}
+                >
+                  <ListItemIcon style={{ minWidth: 36, color: 'var(--text)' }}>
+                    {it.icon}
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary={it.label} 
+                    primaryTypographyProps={{ style: { color: 'var(--text)' } }}
+                  />
                 </MenuItem>
               ))}
             </Menu>
@@ -278,7 +329,30 @@ export default function FlowToolbar() {
 
       <div style={{ flex: 1 }} />
 
-      {/* Right side controls: now labels are placed under icons (like categories) */}
+      {/* Dark Mode Toggle */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+        <Tooltip title={darkMode ? "Switch to light mode" : "Switch to dark mode"}>
+          <IconButton
+            onClick={toggleDarkMode}
+            size="small"
+            style={{ 
+              ...iconButtonBase, 
+              minWidth: 36, 
+              minHeight: 36,
+              color: "var(--text)",
+            }}
+          >
+            {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
+        </Tooltip>
+        {expanded && (
+          <div style={{ fontSize: 12, opacity: 0.9, color: "var(--subtext)" }}>
+            {darkMode ? "Light" : "Dark"}
+          </div>
+        )}
+      </div>
+
+      {/* Right side controls */}
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         {/* Clear */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
@@ -288,12 +362,17 @@ export default function FlowToolbar() {
                 if (window.confirm("Clear all nodes and edges?")) clearNodes();
               }}
               size="small"
-              style={{ ...iconButtonBase, minWidth: 36, minHeight: 36 }}
+              style={{ 
+                ...iconButtonBase, 
+                minWidth: 36, 
+                minHeight: 36,
+                color: "var(--text)",
+              }}
             >
               <AddCircleOutlineIcon style={{ transform: "rotate(45deg)" }} />
             </IconButton>
           </Tooltip>
-          {expanded && <div style={{ fontSize: 12, opacity: 0.9 }}>Clear</div>}
+          {expanded && <div style={{ fontSize: 12, opacity: 0.9, color: "var(--subtext)" }}>Clear</div>}
         </div>
 
         {/* Load */}
@@ -302,13 +381,18 @@ export default function FlowToolbar() {
             <IconButton
               component="label"
               size="small"
-              style={{ ...iconButtonBase, minWidth: 36, minHeight: 36 }}
+              style={{ 
+                ...iconButtonBase, 
+                minWidth: 36, 
+                minHeight: 36,
+                color: "var(--text)",
+              }}
             >
               <input type="file" accept=".json" hidden onChange={handleLoad} />
               <FileDownloadIcon style={{ transform: "rotate(180deg)" }} />
             </IconButton>
           </Tooltip>
-          {expanded && <div style={{ fontSize: 12, opacity: 0.9 }}>Load</div>}
+          {expanded && <div style={{ fontSize: 12, opacity: 0.9, color: "var(--subtext)" }}>Load</div>}
         </div>
 
         {/* Export */}
@@ -317,12 +401,17 @@ export default function FlowToolbar() {
             <IconButton
               onClick={exportFlow}
               size="small"
-              style={{ ...iconButtonBase, minWidth: 36, minHeight: 36 }}
+              style={{ 
+                ...iconButtonBase, 
+                minWidth: 36, 
+                minHeight: 36,
+                color: "var(--text)",
+              }}
             >
               <FileDownloadIcon />
             </IconButton>
           </Tooltip>
-          {expanded && <div style={{ fontSize: 12, opacity: 0.9 }}>Export</div>}
+          {expanded && <div style={{ fontSize: 12, opacity: 0.9, color: "var(--subtext)" }}>Export</div>}
         </div>
       </div>
     </div>
